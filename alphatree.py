@@ -5,6 +5,8 @@ import images
 
 import numpy as np
 import matplotlib.pyplot as plt
+import heapq
+import queue as Q
 
 
 def main():
@@ -13,38 +15,37 @@ def main():
     #colouredCCs = helpers.convert_to_color(labeled_image)
     #helpers.display_two(test_image, colouredCCs)
 
-    print(helpers.get_neigbours(test_image, 4, 4))
+    print(helpers.get_neighbours(test_image, 4, 4))
+
+
+class Datum(object):
+    def __init__(self, prio, p):
+        self.prio = prio
+        self.p = p
+        return
+
+    def __cmp__(self, other):
+        if(self.prio < other.prio):
+            return self
+        else:
+            return other
 
 
 '''
-def alpha_omegaCC(image, alpha, omega):
-    width = image.shape[0]
-    height = image.shape[1]
-    lbl = np.full((width, height), 0)
-    rl = np.full((width, height), np.inf)
+def alpha_omega(gray_image, alpha, omega):
 
-    lblval = 1
-    for i in range(width):
-        for j in range(height):
-            if(lbl[i, j] == 0):
-                lbl[i, j] = lblval
-                mincc, maxcc = image[i, j]
-                rlcrt = alpha
-                neighbors = helpers.get_neighbours(image, i, j)
-'''
-
-'''
-def alpha_omega(gray_image,alpha,omega):
-    
-    #Initialisation
+    # Initialisation
     width = gray_image.shape[0]
     height = gray_image.shape[1]
 
     lbl = np.full((width, height), 0)
     rl = np.full((width, height), np.inf)
 
+    pq = Q.PriorityQueue()
+    st = []
+
     # l. 1
-    lblval = 1;
+    lblval = 1
     # l. 2
     for i in range(width):
         for j in range(height):
@@ -57,12 +58,15 @@ def alpha_omega(gray_image,alpha,omega):
                 # l. 6
                 rlcrt = alpha
                 # l. 7
-                neighbors = helpers.get_neighbours(gray_image, i, j)
-                for k in range(len(neighbors)):
+                neighbours = helpers.get_neighbours(gray_image, i, j)
+                for k in range(len(neighbours)):
                     # l. 8
-                    rlval = 
+                    neighbour_i = neighbours[k][0]
+                    neighbour_j = neighbours[k][1]
+                    rlval = helpers.computeR(
+                        gray_image[i, j], gray_image[neighbour_i, neighbour_j])
                     # l. 9
-                    if lbl[neighbors[i,0],neighbors[i,1]] > 0:
+                    if lbl[neighbour_i, neighbour_j] > 0:
                         # l. 10
                         if rlcrt >= rlval:
                             # l. 11
@@ -72,51 +76,55 @@ def alpha_omega(gray_image,alpha,omega):
                         continue
                     # l. 14 end if
                     # l. 15
-                    if rlval < rlcrt :
+                    if rlval < rlcrt:
                         # l. 16
-                        rl[neighbors[i,0],neighbors[i,1]] = rlval
+                        rl[neighbour_i, neighbour_j] = rlval
                         # l. 17
-                        pq_insert(q at priority rlval)
+                        pq.put(Datum(rlval, (neighbour_i, neighbour_j)))
                     # l 18. enf if
                 # l. 19 endfor
                 # l. 20
-                rcrt = pq_get_highest_priority()
-                # l. 21 
-                while is_pq_empty() == False :
+                rcrt = pq.get()
+                #rcrt = pq_get_highest_priority()
+                # l. 21
+                while not pq.empty():
                     # l. 22
-                    datum = pq_retrieve()
+                    datum = pq.get()
+                    #datum = pq_retrieve()
                     # l. 23
-                    if lbl[datum.p] > 0 :
+                    if lbl[datum.p[0], datum.p[1]] > 0:
                         # l. 24
                         continue
                     # l. 25
                     # l. 26
-                    if datum.prio > rcrt :
+                    if datum.prio > rcrt:
                         # l. 27
-                        while len(stack) > 0:
+                        while len(st) > 0:
                             # l.28
-                            lbl[stack[0,0],stack[0,1]] = lblval
-                            stack.pop(0)
+                            pixel = st.pop(0)
+                            pixel_i = pixel[0]
+                            pixel_j = pixel[1]
+                            lbl[pixel_i, pixel_j] = lblval
                         # l. 29 end while
                         # l. 30
                         rcrt = datum.prio
                         # l. 31
-                        if lbl[datum.p] > 0 :
+                        if lbl[datum.p[0], datum.p[1]] > 0:
                             # l. 32
                             continue
                         # l. 33 end if
                     # l. 34 end if
                     # l. 35
-                    stack.append(datum.p);
+                    st.append(datum.p)
                     # l. 36
-                    if gray_image[datum.p] < mincc:
+                    if gray_image[datum.p[0], datum.p[1]] < mincc:
                         # l. 37
-                        mincc = gray_image[datum.p]
+                        mincc = gray_image[datum.p[0], datum.p[1]]
                     # l. 38 end if
                     # l. 39
-                    if gray_image[datum.p] > maxcc:
+                    if gray_image[datum.p[0], datum.p[1]] > maxcc:
                         # l. 40
-                        maxcc = gray_image[datum.p]
+                        maxcc = gray_image[datum.p[0], datum.p[1]]
                     # l. 41 end if
                     # l. 42
                     if omega < (maxcc - mincc) or rcrt > rlcrt:
@@ -126,21 +134,23 @@ def alpha_omega(gray_image,alpha,omega):
                         break
                     # l. 45 end if
                     # l. 46
-                    datum_neighbors = helpers.get_neighbours(gray_image, datum.p[0], datum.p[1])
+                    datum_neighbors = helpers.get_neighbours(
+                        gray_image, datum.p[0], datum.p[1])
                     for k in range(len(datum_neighbors)):
                         q = datum_neighbors[k]
                         # l. 47
-                        rlval = abs(gray_image[datum.p] - gray_image[q])
+                        rlval = abs(
+                            gray_image[datum.p[0], datum.p[1]] - gray_image[q[0], q[1]])
                         # l. 48
-                        if lbl[q] > 0 and lbl[q] != lblval and rlcrt >= rlval :
+                        if lbl[q[0], q[1]] > 0 and lbl[q[0], q[1]] != lblval and rlcrt >= rlval:
                             # l. 49
                             rlcrt = rlval
                             # l. 50
-                            if rcrt > rlcrt
+                            if rcrt > rlcrt:
                                 # l. 51
                                 # retrieve pixels from priority queue stack and reset them to infinity in rl
                                 # l. 52
-                                break
+                            break
                             # l. 53 end if
                             # l. 54
                             continue
@@ -150,19 +160,22 @@ def alpha_omega(gray_image,alpha,omega):
                             # l. 57
                             continue
                         # l. 58
-                        elif rlval < rl[q] :
+                        elif rlval < rl[q[0], q[1]]:
                             # l. 59
-                            rl[q] = rlval
+                            rl[q[0], q[1]] = rlval
                             # l. 60
-                            pq_insert( q at priority rlval)
+                            pq.put(Datum(rlval, q))
+                            # pq_insert(q at priority rlval)
                         # l. 61 end if
                     # l. 62 end for
                 # l. 63 end while
                 # l. 64
-                while len(stack) > 0:
+                while len(st) > 0:
                     # l. 65
-                    lbl[stack[0,0],stack[0,1]] = lblval
-                    stack.pop(0)
+                    pixel = st.pop(0)
+                    pixel_i = pixel[0]
+                    pixel_j = pixel[1]
+                    lbl[pixel_i, pixel_j] = lblval
                 # l. 66 end while
                 # l. 67
                 lblval = lblval+1

@@ -28,7 +28,7 @@ def convert_to_color(image):
     return colored_image
 
 
-def get_neigbours(image, i, j):
+def get_neighbours(image, i, j):
     width = image.shape[0]
     height = image.shape[1]
     if(i < 0 or i > width-1 or j < 0 or j > height-1):
@@ -75,3 +75,20 @@ def get_neigbours(image, i, j):
             neighbors.append([i+1, j])
             neighbors.append([i, j-1])
         return neighbors
+
+
+def computeR(val1, val2):
+    return abs(val2-val1)
+
+
+class Datum(object):
+    def __init__(self, priority, pixel):
+        self.priority = priority
+        self.pixel = pixel
+        return
+
+    def __cmp__(self, other):
+        if(self.priority < other.priority):
+            return self
+        else:
+            return other
