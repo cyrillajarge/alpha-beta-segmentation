@@ -20,7 +20,7 @@ class Datum(object):
 
 def main():
     test_image = images.test1
-    labeled_image = alpha_omega(test_image, 3, 3)
+    labeled_image = alpha_omega(test_image, 1, 1)
     colouredCCs = helpers.convert_to_color(labeled_image)
     helpers.display_two(test_image, colouredCCs)
 
@@ -75,11 +75,15 @@ def alpha_omega(gray_image, alpha, omega):
                         # l. 17
                         pq.put(Datum(rlval, (neighbour_i, neighbour_j)))
                     # l 18. enf if
+
                 # l. 19 endfor
                 # l. 20
-                tmp = pq.get()
-                rcrt = tmp.prio
-                pq.put(tmp)
+                if(pq.empty()):
+                    rcrt = 0
+                else:
+                    tmp = pq.get()
+                    rcrt = tmp.prio
+                    pq.put(tmp)
                 #rcrt = pq_get_highest_priority()
                 # l. 21
                 while not pq.empty():
@@ -140,7 +144,7 @@ def alpha_omega(gray_image, alpha, omega):
                         rlval = abs(
                             gray_image[datum.p[0], datum.p[1]] - gray_image[q[0], q[1]])
                         # l. 48
-                        if lbl[q[0], q[1]] > 0 and lbl[q[0], q[1]] != lblval and rlcrt >= rlval:
+                        if (lbl[q[0], q[1]] > 0) and (lbl[q[0], q[1]] != lblval) and (rlcrt >= rlval):
                             # l. 49
                             rlcrt = rlval
                             # l. 50
@@ -157,7 +161,7 @@ def alpha_omega(gray_image, alpha, omega):
                             continue
                         # l. 55 end if
                         # l. 56
-                        if rlval > rlcrt or rlval >= rl[q[0], q[1]]:
+                        if (rlval > rlcrt) or (rlval >= rl[q[0], q[1]]):
                             # l. 57
                             continue
                         # l. 58
