@@ -31,7 +31,6 @@ class Datum(object):
             return other
 
 
-'''
 def alpha_omega(gray_image, alpha, omega):
 
     # Initialisation
@@ -129,7 +128,8 @@ def alpha_omega(gray_image, alpha, omega):
                     # l. 42
                     if omega < (maxcc - mincc) or rcrt > rlcrt:
                         # l. 43
-                        # retrieve pixels from priority queue stack and reset them to infinity in rl
+                        # retrieve pixels from priority queue and stack and reset them to infinity in rl
+                        rl = helpers.set_values(rl, st, pq, np.inf)
                         # l. 44
                         break
                     # l. 45 end if
@@ -148,7 +148,8 @@ def alpha_omega(gray_image, alpha, omega):
                             # l. 50
                             if rcrt > rlcrt:
                                 # l. 51
-                                # retrieve pixels from priority queue stack and reset them to infinity in rl
+                                # retrieve pixels from priority queue and stack and reset them to infinity in rl
+                                rl = helpers.set_values(rl, st, pq, np.inf)
                                 # l. 52
                             break
                             # l. 53 end if
@@ -181,7 +182,7 @@ def alpha_omega(gray_image, alpha, omega):
                 lblval = lblval+1
             # l. 68 end if
     # l. 69 end for
-'''
+
 
 if __name__ == "__main__":
     main()

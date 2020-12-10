@@ -81,14 +81,13 @@ def computeR(val1, val2):
     return abs(val2-val1)
 
 
-class Datum(object):
-    def __init__(self, priority, pixel):
-        self.priority = priority
-        self.pixel = pixel
-        return
-
-    def __cmp__(self, other):
-        if(self.priority < other.priority):
-            return self
-        else:
-            return other
+def set_values(image, stack, heap, value):
+    for k in range(len(stack)):
+        i = stack[k][0]
+        j = stack[k][1]
+        image[i, j] = value
+    for k in range(len(heap)):
+        i = heap[k].p[0]
+        j = heap[k].p[1]
+        image[i, j] = value
+    return image
