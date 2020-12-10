@@ -9,33 +9,20 @@ import heapq
 import queue as Q
 
 
-def main():
-    test_image = images.test1
-    labeled_image = test_image# alpha_omegaCC(test_image, 2, 2)
-    colouredCCs = helpers.convert_to_color(labeled_image)
-    helpers.display_two(test_image, colouredCCs)
-
-    #print(helpers.get_neighbours(test_image, 0, 4))
-    queue = Q.PriorityQueue()
-    queue.put(Datum(5,(46,98)))
-    queue.put(Datum(1,(416,9)))
-    queue.put(Datum(9,(46,98)))
-    queue.put(Datum(9,(6,8)))
-    
-    print(queue)
-
-
 class Datum(object):
     def __init__(self, prio, p):
         self.prio = prio
         self.p = p
-        return
 
     def __lt__(self, other):
-        if(self.prio < other.prio):
-            return self
-        else:
-            return other
+        return self.prio < other.prio
+
+
+def main():
+    test_image = images.test1
+    labeled_image = alpha_omega(test_image, 3, 3)
+    colouredCCs = helpers.convert_to_color(labeled_image)
+    helpers.display_two(test_image, colouredCCs)
 
 
 def alpha_omega(gray_image, alpha, omega):
@@ -60,7 +47,7 @@ def alpha_omega(gray_image, alpha, omega):
                 # l. 4
                 lbl[i, j] = lblval
                 # l. 5
-                mincc, maxcc = gray_image[i, j]
+                mincc = maxcc = gray_image[i, j]
                 # l. 6
                 rlcrt = alpha
                 # l. 7
@@ -90,7 +77,9 @@ def alpha_omega(gray_image, alpha, omega):
                     # l 18. enf if
                 # l. 19 endfor
                 # l. 20
-                rcrt = pq.get()
+                tmp = pq.get()
+                rcrt = tmp.prio
+                pq.put(tmp)
                 #rcrt = pq_get_highest_priority()
                 # l. 21
                 while not pq.empty():
@@ -107,7 +96,7 @@ def alpha_omega(gray_image, alpha, omega):
                         # l. 27
                         while len(st) > 0:
                             # l.28
-                            pixel = st.pop(0)
+                            pixel = st.pop()
                             pixel_i = pixel[0]
                             pixel_j = pixel[1]
                             lbl[pixel_i, pixel_j] = lblval
@@ -133,10 +122,12 @@ def alpha_omega(gray_image, alpha, omega):
                         maxcc = gray_image[datum.p[0], datum.p[1]]
                     # l. 41 end if
                     # l. 42
-                    if omega < (maxcc - mincc) or rcrt > rlcrt:
+                    if (omega < (maxcc - mincc)) or (rcrt > rlcrt):
                         # l. 43
                         # retrieve pixels from priority queue and stack and reset them to infinity in rl
                         rl = helpers.set_values(rl, st, pq, np.inf)
+                        pq.queue.clear()
+                        st = []
                         # l. 44
                         break
                     # l. 45 end if
@@ -157,14 +148,16 @@ def alpha_omega(gray_image, alpha, omega):
                                 # l. 51
                                 # retrieve pixels from priority queue and stack and reset them to infinity in rl
                                 rl = helpers.set_values(rl, st, pq, np.inf)
+                                pq.queue.clear()
+                                st = []
                                 # l. 52
-                            break
+                                break
                             # l. 53 end if
                             # l. 54
                             continue
                         # l. 55 end if
                         # l. 56
-                        if rlval > rlcrt or rlval >= rl[q]:
+                        if rlval > rlcrt or rlval >= rl[q[0], q[1]]:
                             # l. 57
                             continue
                         # l. 58
@@ -180,7 +173,7 @@ def alpha_omega(gray_image, alpha, omega):
                 # l. 64
                 while len(st) > 0:
                     # l. 65
-                    pixel = st.pop(0)
+                    pixel = st.pop()
                     pixel_i = pixel[0]
                     pixel_j = pixel[1]
                     lbl[pixel_i, pixel_j] = lblval
@@ -189,6 +182,7 @@ def alpha_omega(gray_image, alpha, omega):
                 lblval = lblval+1
             # l. 68 end if
     # l. 69 end for
+    return lbl
 
 
 if __name__ == "__main__":

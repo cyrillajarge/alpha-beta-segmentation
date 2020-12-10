@@ -86,8 +86,10 @@ def set_values(image, stack, heap, value):
         i = stack[k][0]
         j = stack[k][1]
         image[i, j] = value
-    for k in range(len(heap)):
-        i = heap[k].p[0]
-        j = heap[k].p[1]
+    while not heap.empty():
+        next_item = heap.get()
+        i = next_item.p[0]
+        j = next_item.p[1]
         image[i, j] = value
+
     return image
