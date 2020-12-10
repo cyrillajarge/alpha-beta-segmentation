@@ -80,15 +80,3 @@ def get_neighbours(image, i, j):
 def computeR(val1, val2):
     return abs(val2-val1)
 
-
-class Datum(object):
-    def __init__(self, priority, pixel):
-        self.priority = priority
-        self.pixel = pixel
-        return
-
-    def __cmp__(self, other):
-        if(self.priority < other.priority):
-            return self
-        else:
-            return other

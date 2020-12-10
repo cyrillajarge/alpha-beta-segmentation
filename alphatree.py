@@ -11,11 +11,18 @@ import queue as Q
 
 def main():
     test_image = images.test1
-    #labeled_image = alpha_omegaCC(test_image, 2, 2)
-    #colouredCCs = helpers.convert_to_color(labeled_image)
-    #helpers.display_two(test_image, colouredCCs)
+    labeled_image = test_image# alpha_omegaCC(test_image, 2, 2)
+    colouredCCs = helpers.convert_to_color(labeled_image)
+    helpers.display_two(test_image, colouredCCs)
 
-    print(helpers.get_neighbours(test_image, 4, 4))
+    #print(helpers.get_neighbours(test_image, 0, 4))
+    queue = Q.PriorityQueue()
+    queue.put(Datum(5,(46,98)))
+    queue.put(Datum(1,(416,9)))
+    queue.put(Datum(9,(46,98)))
+    queue.put(Datum(9,(6,8)))
+    
+    print(queue)
 
 
 class Datum(object):
@@ -24,7 +31,7 @@ class Datum(object):
         self.p = p
         return
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
         if(self.prio < other.prio):
             return self
         else:
