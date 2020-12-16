@@ -20,7 +20,7 @@ class Datum(object):
 
 def main():
     test_image = images.test1
-    labeled_image = alpha_omega(test_image, 1, 1)
+    labeled_image = alpha_omega(test_image, 2, 2)
     colouredCCs = helpers.convert_to_color(labeled_image)
     helpers.display_two(test_image, colouredCCs)
 
@@ -28,20 +28,22 @@ def main():
 def alpha_omega(gray_image, alpha, omega):
 
     # Initialisation
-    width = gray_image.shape[0]
-    height = gray_image.shape[1]
+    # first index = line (height), second index = column(width)
+    height = gray_image.shape[0]
+    width = gray_image.shape[1]
 
-    lbl = np.full((width, height), 0)
-    rl = np.full((width, height), np.inf)
+    lbl = np.full((height, width), 0)
+    rl = np.full((height, width), np.inf)
 
     pq = Q.PriorityQueue()
     st = []
 
     # l. 1
     lblval = 1
+    rcrt = 0
     # l. 2
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             # l. 3
             if lbl[i, j] == 0:
                 # l. 4
@@ -75,21 +77,20 @@ def alpha_omega(gray_image, alpha, omega):
                         # l. 17
                         pq.put(Datum(rlval, (neighbour_i, neighbour_j)))
                     # l 18. enf if
-
                 # l. 19 endfor
                 # l. 20
-                if(pq.empty()):
-                    rcrt = 0
-                else:
-                    tmp = pq.get()
+                try:
+                    tmp = pq.get(block=False)
                     rcrt = tmp.prio
                     pq.put(tmp)
-                #rcrt = pq_get_highest_priority()
+                except Q.Empty:
+                    pass
+                # rcrt = pq_get_highest_priority()
                 # l. 21
                 while not pq.empty():
                     # l. 22
                     datum = pq.get()
-                    #datum = pq_retrieve()
+                    # datum = pq_retrieve()
                     # l. 23
                     if lbl[datum.p[0], datum.p[1]] > 0:
                         # l. 24

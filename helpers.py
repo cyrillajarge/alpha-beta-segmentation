@@ -29,52 +29,18 @@ def convert_to_color(image):
 
 
 def get_neighbours(image, i, j):
-    width = image.shape[0]
-    height = image.shape[1]
-    if(i < 0 or i > width-1 or j < 0 or j > height-1):
-        raise Exception(
-            'index out of range')
-    neighbors = []
-    if(i > 0 and i < width-1 and j > 0 and j < height-1):
-        neighbors.append([i, j+1])
-        neighbors.append([i+1, j])
-        neighbors.append([i, j-1])
-        neighbors.append([i-1, j])
-        return neighbors
-    if(i == 0):
-        if(j == 0):
-            neighbors.append([i+1, j])
-            neighbors.append([i, j+1])
-        elif(j == height-1):
-            neighbors.append([i+1, j])
-            neighbors.append([i, j-1])
-        else:
-            neighbors.append([i, j+1])
-            neighbors.append([i+1, j])
-            neighbors.append([i, j-1])
-        return neighbors
-    if(i == width-1):
-        if(j == 0):
-            neighbors.append([i-1, j])
-            neighbors.append([i, j+1])
-        elif(j == height-1):
-            neighbors.append([i-1, j])
-            neighbors.append([i, j-1])
-        else:
-            neighbors.append([i, j+1])
-            neighbors.append([i-1, j])
-            neighbors.append([i, j-1])
-        return neighbors
-    else:
-        if(j == 0):
-            neighbors.append([i-1, j])
-            neighbors.append([i+1, j])
-            neighbors.append([i, j+1])
-        else:
-            neighbors.append([i-1, j])
-            neighbors.append([i+1, j])
-            neighbors.append([i, j-1])
-        return neighbors
+    height = image.shape[0]
+    width = image.shape[1]
+    neigbours = []
+    if((i+1) < height):
+        neigbours.append([i+1, j])
+    if((i-1) >= 0):
+        neigbours.append([i-1, j])
+    if((j+1) < width):
+        neigbours.append([i, j+1])
+    if((j-1) >= 0):
+        neigbours.append([i, j-1])
+    return neigbours
 
 
 def computeR(val1, val2):
