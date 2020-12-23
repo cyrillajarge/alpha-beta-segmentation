@@ -71,7 +71,7 @@ def alpha_omega(gray_image, alpha, omega):
                         continue
                     # l. 14 end if
                     # l. 15
-                    if rlval < rlcrt:
+                    if rlval <= rlcrt:
                         # l. 16
                         rl[neighbour_i, neighbour_j] = rlval
                         # l. 17
@@ -149,7 +149,7 @@ def alpha_omega(gray_image, alpha, omega):
                             # l. 49
                             rlcrt = rlval
                             # l. 50
-                            if rcrt > rlcrt:
+                            if rcrt >= rlcrt:
                                 # l. 51
                                 # retrieve pixels from priority queue and stack and reset them to infinity in rl
                                 rl = helpers.set_values(rl, st, pq, np.inf)
