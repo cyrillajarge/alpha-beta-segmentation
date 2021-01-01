@@ -71,7 +71,7 @@ def main():
     # Converting to float
     input_image = input_image + 0.
 
-    labeled_image = alpha_omega(input_image, 3, 3)
+    labeled_image = alpha_omega(input_image, alpha, omega)
     colouredCCs = helpers.convert_to_color(labeled_image)
     export_file_name = "./outputs/"+os.path.splitext(os.path.basename(input_file))[0] + \
         "_"+str(alpha)+"_"+str(omega)+"_CC.png"
