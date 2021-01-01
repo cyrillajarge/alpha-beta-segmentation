@@ -8,14 +8,14 @@ def display(image):
     plt.show()
 
 
-def display_two(image1, image2):
+def display_two(image1, image2, export_file):
     plt.subplot(1, 2, 1)
     plt.imshow(image1, cmap='gray')
     plt.subplot(1, 2, 2)
     plt.imshow(image2, cmap='gray')
 
-    #plt.show()
-    plt.savefig("figure.png");
+    plt.savefig(export_file)
+    plt.show()
 
 
 def convert_to_color(image):
