@@ -14,7 +14,8 @@ def display_two(image1, image2):
     plt.subplot(1, 2, 2)
     plt.imshow(image2, cmap='gray')
 
-    plt.show()
+    #plt.show()
+    plt.savefig("figure.png");
 
 
 def convert_to_color(image):

@@ -5,7 +5,6 @@ import images
 
 import numpy as np
 import matplotlib.pyplot as plt
-import heapq
 import queue as Q
 
 
@@ -19,8 +18,18 @@ class Datum(object):
 
 
 def main():
-    test_image = images.test1
-    labeled_image = alpha_omega(test_image, 2, 2)
+    import matplotlib.pyplot as plt
+    #im = plt.imread('Coloured_Voronoi_3D_slice.png') * 255
+    #im = plt.imread('field2.jpg')
+    im = plt.imread('circles.png') * 255
+    #im = plt.imread('road.jpg')
+    im = im[:,:,2]
+    im = im + 0.
+    test_image = im #images.test1
+    # road (150,150)-CC
+    # voronoi (4,4)-CC
+    # field2 (70,70)-CC
+    labeled_image = alpha_omega(test_image, 150, 150)
     colouredCCs = helpers.convert_to_color(labeled_image)
     helpers.display_two(test_image, colouredCCs)
 
@@ -30,10 +39,10 @@ def alpha_omega(gray_image, alpha, omega):
     # Initialisation
     # first index = line (height), second index = column(width)
     height = gray_image.shape[0]
-    width = gray_image.shape[1]
+    width  = gray_image.shape[1]
 
     lbl = np.full((height, width), 0)
-    rl = np.full((height, width), np.inf)
+    rl  = np.full((height, width), np.inf)
 
     pq = Q.PriorityQueue()
     st = []
