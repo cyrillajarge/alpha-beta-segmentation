@@ -14,28 +14,29 @@
 
 **Results**
 
-* circles.png    
+* Figure 2 of the paper :
 <p float="left">
-  <img src="Images/circles.png" width="300" />
-  <img src="Outputs/circles_150_150_CC.png" width="300" />
+  <img src="Outputs/__test_3_3_CC.png" width="600"/>
 </p>
 
-* Coloured_Voronoi_3D_slice.png   
+* circles.png :
 <p float="left">
-  <img src="Images/Coloured_Voronoi_3D_slice.png" width="300" />
-  <img src="Outputs/voronoi_4_4_CC.png" width="300" />
+  <img src="Outputs/circles_150_150_CC.png" width="600" />
 </p>
 
-* road.jpg    
+* Coloured_Voronoi_3D_slice.png :   
 <p float="left">
-  <img src="Images/road.jpg" width="300" />
-  <img src="Outputs/road_150_150_CC.png" width="300" />
+  <img src="Outputs/Coloured_Voronoi_3D_slice_4_4_CC.png" width="600" />
 </p>
 
-* field2.jpg    
+* road.jpg :  
 <p float="left">
-  <img src="Images/field2.jpg" width="300" />
-  <img src="Outputs/field_70_70_CC.png" width="300" />
+  <img src="Outputs/road_150_150_CC.png" width="600" />
+</p>
+
+* field2.jpg :    
+<p float="left">
+  <img src="Outputs/field2_70_70_CC.png" width="600" />
 </p>
 
 ## References
