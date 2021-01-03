@@ -1,6 +1,6 @@
 # Alpha-Omega Connected Components of an image [[1]](#1)
 
-##Libraries
+## Libraries
 
 - numpy
 - matplotlib
