@@ -6,6 +6,10 @@
 - matplotlib
 - queue
 
+## How to use
+```python alphatree.py [input-file-path](optional) [alpha] [omega]```    
+Outputs are rendered in the output directory and have the same name of the input file with an additional information about the values used for α and ω.
+
 ## Definition
 Two pixels p and q in an image are (α,ω)-related if there exists a path of neighborhood 4 between those pixels  and all pairs of consecutive pixels of this path have a range <= α. Furthermore, all the pixels of the path must have a value <= ω.    
 A single pixel is (α,ω)-related to itself.    
@@ -15,6 +19,7 @@ The **(α,ω)-connected component** of a pixel p is the largest αi connected co
 * `alphatree.py`, main function and (α,ω)-connected component labelling algorithm
 * `helpers.py`, auxilary functions
 * `images.py`, test image from figure 2 of the paper [[1]](#1)
+
 
 ## Results
 
