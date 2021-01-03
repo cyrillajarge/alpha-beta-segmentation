@@ -11,7 +11,7 @@
 Outputs are rendered in the output directory and have the same name of the input file with an additional information about the values used for α and ω.
 
 ## Definition
-Two pixels p and q in an image are (α,ω)-related if there exists a path of neighborhood 4 between those pixels  and all pairs of consecutive pixels of this path have a range <= α. Furthermore, the range of between all the pixels of the path must be <= ω.    
+Two pixels p and q in an image are (α,ω)-related if there exists a path of neighborhood 4 between those pixels  and all pairs of consecutive pixels of this path have a range <= α. Furthermore, the range between all the pixels of the path must be <= ω.    
 A single pixel is (α,ω)-related to itself.    
 The **(α,ω)-connected component** of a pixel p is the largest αi connected component of p such that αi <= α and the range of this connected component is <= ω.    
 
