@@ -1,18 +1,22 @@
-# Alpha-Omega Tree [[1]](#1)
+# Alpha-Omega Connected Components of an image [[1]](#1)
 
-**Libraries:**
+##Libraries
 
 - numpy
 - matplotlib
 - queue
 
+## Definition
+Two pixels p and q in an image are (α,ω)-related if there exists a path of neighborhood 4 between those pixels  and all pairs of consecutive pixels of this path have a range <= α. Furthermore, all the pixels of the path must have a value <= ω.    
+A single pixel is (α,ω)-related to itself.    
+The **(α,ω)-connected component** of a pixel p is the largest αi connected component of p such that αi <= α and the range of this connected component is <= ω.    
 
-**Files**
+## Files
 * `alphatree.py`, main function and (α,ω)-connected component labelling algorithm
 * `helpers.py`, auxilary functions
 * `images.py`, test image from figure 2 of the paper [[1]](#1)
 
-**Results**
+## Results
 
 * Figure 2 of the paper :
 <p float="left">
